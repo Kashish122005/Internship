@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Form with Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            margin: auto;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        legend {
+            font-weight: bold;
+            color: #007BFF;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">User Registration Form</h2>
+
+    <form id="userForm">
+        <!-- Personal Details -->
+        <fieldset>
+            <legend>Personal Details</legend>
+            
+            <!-- Full Name -->
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required maxlength="50">
+            <div class="error" id="nameError">Full Name is required.</div>
+
+            <!-- Email -->
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <div class="error" id="emailError">Please enter a valid email address.</div>
+
+            <!-- Password -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter a strong password" required minlength="6" maxlength="20">
+            <div class="error" id="passwordError">Password must be 6-20 characters long.</div>
+        </fieldset>
+
+        <!-- Additional Information -->
+        <fieldset>
+            <legend>Additional Information</legend>
+
+            <!-- Message -->
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Write your message here..." required maxlength="200"></textarea>
+            <div class="error" id="messageError">Message is required.</div>
+
+            <!-- Checkbox -->
+            <label>
+                <input type="checkbox" id="subscribe"> Subscribe to our newsletter
+            </label>
+        </fieldset>
+
+        <!-- Gender Selection -->
+        <fieldset>
+            <legend>Gender</legend>
+            <label><input type="radio" name="gender" value="male" required> Male</label>
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <div class="error" id="genderError">Please select your gender.</div>
+        </fieldset>
+
+        <!-- Country Selection -->
+        <fieldset>
+            <legend>Country</legend>
+            <label for="country">Choose a country:</label>
+            <select id="country" name="country" required>
+                <option value="">-- Select a country --</option>
+                <option value="usa">United States</option>
+                <option value="canada">Canada</option>
+                <option value="uk">United Kingdom</option>
+            </select>
+            <div class="error" id="countryError">Please select a country.</div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            let valid = true;
+
+            // Full Name Validation
+            let name = document.getElementById("name").value;
+            if (name.trim() === "") {
+                document.getElementById("nameError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("nameError").style.display = "none";
+            }
+
+            // Email Validation
+            let email = document.getElementById("email").value;
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.match(emailPattern)) {
+                document.getElementById("emailError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("emailError").style.display = "none";
+            }
+
+            // Password Validation
+            let password = document.getElementById("password").value;
+            if (password.length < 6 || password.length > 20) {
+                document.getElementById("passwordError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("passwordError").style.display = "none";
+            }
+
+            // Message Validation
+            let message = document.getElementById("message").value;
+            if (message.trim() === "") {
+                document.getElementById("messageError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("messageError").style.display = "none";
+            }
+
+            // Gender Validation
+            let gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                document.getElementById("genderError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("genderError").style.display = "none";
+            }
+
+            // Country Validation
+            let country = document.getElementById("country").value;
+            if (country === "") {
+                document.getElementById("countryError").style.display = "block";
+                valid = false;
+            } else {
+                document.getElementById("countryError").style.display = "none";
+            }
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+
+</body>
+</html>
